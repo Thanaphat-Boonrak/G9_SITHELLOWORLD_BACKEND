@@ -16,7 +16,6 @@ const options = {
 };
 
 const swaggerSpec = swaggerJsdoc(options);
-app.use(cors());
 
 
 
@@ -26,7 +25,7 @@ const port = 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
 app.use("/api", Routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
