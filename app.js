@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const Routes = require("./routes/routes");
 const swaggerJsdoc = require('swagger-jsdoc');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const options = {
   definition: {
@@ -15,6 +16,7 @@ const options = {
 };
 
 const swaggerSpec = swaggerJsdoc(options);
+app.use(cors());
 
 
 
