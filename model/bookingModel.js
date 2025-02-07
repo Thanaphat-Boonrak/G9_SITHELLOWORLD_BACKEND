@@ -49,15 +49,25 @@ const BookingModel = {
   },
 
 
+  deleteBooking: (bookingId, callback) => {
+    const sql = `DELETE FROM bookings WHERE booking_id = ?`;
+    db.query(sql, [bookingId], (err, results) => {
+      if (err) return callback(err, null);
+      callback(null, results);
+    });
+  },
+
+
+
 
 
   getBookingByName: (booked_by_name, callback) => {
-    const sql =  `SELECT  b.booked_by_name,booking_date,booking_by_status,b.start_time,b.end_time, r.room_name FROM bookings b INNER JOIN rooms r ON b.room_id = r.room_id  WHERE b.booked_by_name = ?`
+    const sql = `SELECT  b.booked_by_name,booking_date,booking_by_status,b.start_time,b.end_time, r.room_name FROM bookings b INNER JOIN rooms r ON b.room_id = r.room_id  WHERE b.booked_by_name = ?`
     db.query(sql, [booked_by_name], (err, results) => {
-        if (err) return callback(err, null);
-        callback(null, results);
+      if (err) return callback(err, null);
+      callback(null, results);
     });
-}
+  }
 
 };
 

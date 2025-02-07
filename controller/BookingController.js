@@ -28,11 +28,24 @@ exports.getAllBooking = (req, res) => {
   });
 };
 
+exports.deleteBooking = (req, res) => {
+  const bookingId = req.params.bookingId;
+  console.log(bookingId)
+  BookingModel.deleteBooking(bookingId, (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Database Error', error: err });
+    }
+
+    if (results.affectedRows > 0) {
+      return res.status(200).json({ message: 'Delete Success' });
+    }
+    return res.status(404).json({ message: 'Delete Failed' });
+  });
+};
+
 
 exports.getBookingByname = (req, res) => {
   const booked_by_name = req.params.booked_by_name;
-  console.log('booked_by_name:', booked_by_name);
-
 
   if (!booked_by_name) {
     return res.status(400).json({ error: "Name is required" });

@@ -156,4 +156,7 @@ router.get("/AllBooking", bookingController.getAllBooking);
 
 router.get('/GetBookingByName/:booked_by_name', bookingController.getBookingByname);
 
+router.delete('/deleteBooking/:bookingId', bookingController.deleteBooking);
+
+
 module.exports = router;
