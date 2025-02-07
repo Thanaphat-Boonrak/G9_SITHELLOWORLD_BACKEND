@@ -293,4 +293,53 @@ router.delete('/deleteBooking/:bookingId', bookingController.deleteBooking);
  *                   example: "Cannot update database"
  */
 router.patch('/updateBooking/:bookingId',bookingController.updateBook);
+/**
+ * @swagger
+ * /getAllBooking:
+ *   get:
+ *     tags:
+ *       - Room Management 
+ *     summary: ดึงรายการการจองทั้งหมด
+ *     description: ใช้สำหรับดึงข้อมูลการจองทั้งหมด
+ *     responses:
+ *       200:
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   booking_id:
+ *                     type: integer
+ *                     example: 1
+ *                   booked_by_name:
+ *                     type: string
+ *                     example: "Thanaphat"
+ *                   room_id:
+ *                     type: integer
+ *                     example: 101
+ *                   booking_by_status:
+ *                     type: string
+ *                     example: "student"
+ *                   booking_date:
+ *                     type: string
+ *                     format: date
+ *                     example: "2025-02-07"
+ *                   start_time:
+ *                     type: string
+ *                     format: time
+ *                     example: "09:00"
+ *                   end_time:
+ *                     type: string
+ *                     format: time
+ *                     example: "11:00"
+ *       500:
+ *         description: ข้อผิดพลาดฐานข้อมูล
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Database error"
+ */
+router.get('/getAllBooking', bookingController.getAllBooking);
 module.exports = router;
