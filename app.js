@@ -7,9 +7,8 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'My API',
-      version: '1.0.0',
-      description: 'A simple Express API'
+      title: 'ROOM MANAGEMENT G9',
+      description: 'Not A Simple API'
     },
   },
   apis: ['./routes/*.js'],

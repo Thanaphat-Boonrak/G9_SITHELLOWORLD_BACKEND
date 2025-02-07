@@ -40,6 +40,46 @@ const BookingModel = {
     );
   },
 
+
+  updateBooking: (bookingId, bookingData, callback) => {
+    const {
+      booked_by_name,
+      room_id,
+      booking_by_status,
+      booking_date,
+      start_time,
+      end_time,
+    } = bookingData;
+  
+    const sql = `
+      UPDATE bookings
+      SET booked_by_name = ?, 
+          room_id = ?, 
+          booking_by_status = ?, 
+          booking_date = ?, 
+          start_time = ?, 
+          end_time = ?
+      WHERE booking_id = ?
+    `;
+  
+    db.query(
+      sql,
+      [
+        booked_by_name,
+        room_id,
+        booking_by_status,
+        booking_date,
+        start_time,
+        end_time,
+        bookingId,
+      ],
+      (err, result) => {
+        if (err) return callback(err, null);
+        callback(null, result);
+      }
+    );
+  },
+
   getAllBooking: (callback) => {
     const sql = `SELECT  b.booked_by_name,booking_date,booking_by_status,b.start_time,b.end_time, r.room_name FROM bookings b INNER JOIN rooms r ON b.room_id = r.room_id`;
     db.query(sql, (err, results) => {

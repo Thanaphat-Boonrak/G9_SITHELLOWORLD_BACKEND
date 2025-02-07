@@ -7,10 +7,12 @@ const bookingController = require("../controller/BookingController.js");
  * @swagger
  * /rooms:
  *   get:
- *     description: Fetch a list of all rooms
+ *     tags:
+ *       - Room Management 
+ *     summary: ดึงรายการห้องทั้งหมด
  *     responses:
  *       200:
- *         description: A list of rooms
+ *         description: สำเร็จ - คืนรายการห้องทั้งหมด
  *         content:
  *           application/json:
  *             schema:
@@ -27,6 +29,13 @@ const bookingController = require("../controller/BookingController.js");
  *                   room_name:
  *                     type: string
  *                     example: "2301"
+ *       500:
+ *         description: ข้อผิดพลาดภายในเซิร์ฟเวอร์
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Database error"
+ *               message: "Cannot fetch room data"
  */
 router.get("/rooms", roomController.getAllRooms);
 
@@ -34,7 +43,9 @@ router.get("/rooms", roomController.getAllRooms);
  * @swagger
  * /booking:
  *   post:
- *     description: Add a new booking
+ *     tags:
+ *       - Room Management 
+ *     summary: เพิ่มการจองใหม่
  *     requestBody:
  *       required: true
  *       content:
@@ -44,7 +55,7 @@ router.get("/rooms", roomController.getAllRooms);
  *             properties:
  *               booked_by_name:
  *                 type: string
- *                 example: "test"
+ *                 example: "Thanaphat"
  *               room_id:
  *                 type: integer
  *                 example: 1
@@ -54,76 +65,56 @@ router.get("/rooms", roomController.getAllRooms);
  *               booking_date:
  *                 type: string
  *                 format: date-time
+ *                 example: "2024-02-10T12:00:00Z"
  *               start_time:
  *                 type: string
  *                 format: date-time
+ *                 example: "2024-02-10T14:00:00Z"
  *               end_time:
  *                 type: string
  *                 format: date-time
+ *                 example: "2024-02-10T16:00:00Z"
  *     responses:
  *       201:
- *         description: Booking By:book_by-name
- *       400:
- *         description: Invalid input
- *       500:
- *         description: Internal server error
- */
-router.post("/booking", bookingController.addBooking);
-/**
- * @swagger
- * /AllBooking:
- *   get:
- *     description: Fetch all bookings
- *     responses:
- *       200:
- *         description: A list of all bookings
+ *         description: การจองสำเร็จ
  *         content:
  *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   booked_by_name:
- *                     type: string
- *                     example: Thanaphat Boonrak
- *                   booking_date:
- *                     type: string
- *                     format: date-time
- *                     example: "2024-02-04T17:00:00.000Z"
- *                   booking_by_status:
- *                     type: string
- *                     example: Student
- *                   start_time:
- *                     type: string
- *                     format: date-time
- *                     example: "2024-02-05T02:00:00.000Z"
- *                   end_time:
- *                     type: string
- *                     format: date-time
- *                     example: "2024-02-05T04:00:00.000Z"
- *                   room_name:
- *                     type: string
- *                     example: "2301"
+ *             example:
+ *               message: "Booking created successfully"
+ *       400:
+ *         description: ข้อมูลไม่ถูกต้อง
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Invalid input"
+ *               message: "All fields are required: booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time."
+ *       500:
+ *         description: ข้อผิดพลาดฐานข้อมูล
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Database error"
+ *               message: "Cannot insert booking data"
  */
-
-router.get("/AllBooking", bookingController.getAllBooking);
+router.post("/booking", bookingController.addBooking);
 
 /**
  * @swagger
  * /GetBookingByName/{booked_by_name}: 
  *   get:
- *     description: Fetch a booking by the name of the person who booked
+ *     tags:
+ *       - Room Management 
+ *     summary: ดึงการจองจากชื่อผู้จอง
  *     parameters:
  *       - in: path
  *         name: booked_by_name
  *         required: true
  *         schema:
  *           type: string
- *           example: "Thanaphat Boonrak"  # ตัวอย่างค่าที่จะส่งใน URL
+ *           example: "Thanaphat"
  *     responses:
  *       200:
- *         description: Booking found
+ *         description: พบข้อมูลการจอง
  *         content:
  *           application/json:
  *             schema:
@@ -131,7 +122,7 @@ router.get("/AllBooking", bookingController.getAllBooking);
  *               properties:
  *                 booked_by_name:
  *                   type: string
- *                   example: "Thanaphat Boonrak"
+ *                   example: "Thanaphat"
  *                 room_id:
  *                   type: integer
  *                   example: 1
@@ -150,13 +141,156 @@ router.get("/AllBooking", bookingController.getAllBooking);
  *                   type: string
  *                   format: date-time
  *                   example: "2024-02-05T04:00:00.000Z"
+ *       400:
+ *         description: ข้อมูลไม่ถูกต้อง
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Invalid input"
+ *               message: "booked_by_name is required."
  *       404:
- *         description: No bookings found
+ *         description: ไม่พบข้อมูลการจอง
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Not found"
+ *               message: "No bookings found for this name."
+ *       500:
+ *         description: ข้อผิดพลาดฐานข้อมูล
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Database error"
+ *               message: "Cannot fetch booking data"
  */
-
 router.get('/GetBookingByName/:booked_by_name', bookingController.getBookingByname);
 
+/**
+ * @swagger
+ * /deleteBooking/{bookingId}:
+ *   delete:
+ *     tags:
+ *       - Room Management 
+ *     summary: ลบการจองตาม ID
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID ของการจองที่ต้องการลบ
+ *     responses:
+ *       200:
+ *         description: ลบสำเร็จ
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Delete Success"
+ *       400:
+ *         description: ข้อมูลไม่ถูกต้อง
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Invalid input"
+ *               message: "bookingId must be an integer."
+ *       404:
+ *         description: ไม่พบข้อมูล
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Not found"
+ *               message: "No booking found with this ID."
+ *       500:
+ *         description: ข้อผิดพลาดฐานข้อมูล
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Database error"
+ *               message: "Cannot delete booking"
+ */
 router.delete('/deleteBooking/:bookingId', bookingController.deleteBooking);
 
-
+/**
+ * @swagger
+ * /api/bookings/{bookingId}:
+ *   put:
+ *     tags:
+ *       - Room Management 
+ *     summary: อัปเดตการจองห้องประชุม
+ *     description: ใช้เพื่ออัปเดตข้อมูลการจองห้อง Booking ID
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: รหัสการจองที่ต้องการอัปเดต
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - booked_by_name
+ *               - room_id
+ *               - booking_by_status
+ *               - booking_date
+ *               - start_time
+ *               - end_time
+ *             properties:
+ *               booked_by_name:
+ *                 type: string
+ *                 example: "Thanaphat"
+ *               room_id:
+ *                 type: integer
+ *                 example: 101
+ *               booking_by_status:
+ *                 type: string
+ *                 example: "student"
+ *               booking_date:
+ *                 type: string
+ *                 format: date
+ *                 example: "2025-02-07"
+ *               start_time:
+ *                 type: string
+ *                 format: time
+ *                 example: "09:00"
+ *               end_time:
+ *                 type: string
+ *                 format: time
+ *                 example: "11:00"
+ *     responses:
+ *       200:
+ *         description: อัปเดตข้อมูลสำเร็จ
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Update Success"
+ *       400:
+ *         description: ข้อมูลไม่ครบถ้วน
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "All fields are required"
+ *       500:
+ *         description: มีปัญหาในการอัปเดตฐานข้อมูล
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Cannot update database"
+ */
+router.patch('/updateBooking/:bookingId',bookingController.updateBook);
 module.exports = router;

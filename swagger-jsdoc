@@ -1,9 +1,0 @@
-/**
- * @swagger
- * /rooms:
- *   get:
- *     description: Return All room can reservation 
- *     responses:
- *       200:
- *         description: Success
- */

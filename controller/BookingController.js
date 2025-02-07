@@ -17,6 +17,28 @@ exports.addBooking = (req, res) => {
   });
 };
 
+exports.updateBook = (req, res) => {
+  const { booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time } = req.body;
+  const bookingId = req.params.bookingId;
+  console.log(bookingId)
+
+  if (!bookingId) {
+    return res.status(400).json({ error: "Booking ID is required" });
+  }
+  if (!booked_by_name || !room_id || !booking_by_status || !booking_date || !start_time || !end_time) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  BookingModel.updateBooking(bookingId, { booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time }, (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: "Cannot update database", details: err.message });
+    }
+
+    res.json({ message: "Update Success "});
+  });
+};
+
+
 
 exports.getAllBooking = (req, res) => {
   BookingModel.getAllBooking((err, bookings) => {
