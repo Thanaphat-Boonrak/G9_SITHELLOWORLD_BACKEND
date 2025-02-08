@@ -5,14 +5,14 @@ exports.addBooking = (req, res) => {
   const { booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time } = req.body;
 
   if (!booked_by_name || !room_id || !booking_by_status || !booking_date || !start_time || !end_time) {
-    return res.status(400).send("Invalid input");
+    return res.status(400).send({ error: "Invalid input" });
   }
 
   BookingModel.addBooking({ booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time }, (err, result) => {
     if (err) {
-      res.status(500).send("Cannot Insert to DateBase" + err.message);
+      res.status(500).send({ error: "Cannot Insert to Database", details: err.message });
     } else {
-      res.send(`Booked By : ${booked_by_name}`);
+      res.status(200).json({ message: `Booked By : ${booked_by_name}`, result: result });
     }
   });
 };
