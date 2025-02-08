@@ -26,7 +26,10 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1606096b34bee912b492e3b29a4a5d2f5b2b2bba
 app.use("/api", Routes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

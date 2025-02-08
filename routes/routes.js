@@ -293,6 +293,11 @@ router.delete('/deleteBooking/:bookingId', bookingController.deleteBooking);
  *                   example: "Cannot update database"
  */
 router.patch('/updateBooking/:bookingId',bookingController.updateBook);
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1606096b34bee912b492e3b29a4a5d2f5b2b2bba
 /**
  * @swagger
  * /getAllBooking:
@@ -342,4 +347,8 @@ router.patch('/updateBooking/:bookingId',bookingController.updateBook);
  *               error: "Database error"
  */
 router.get('/getAllBooking', bookingController.getAllBooking);
+<<<<<<< HEAD
+=======
+router.get('/getAllBooking',bookingController.getAllBooking);
+>>>>>>> 1606096b34bee912b492e3b29a4a5d2f5b2b2bba
 module.exports = router;
