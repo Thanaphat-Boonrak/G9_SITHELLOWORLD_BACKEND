@@ -12,7 +12,7 @@ exports.addBooking = (req, res) => {
     if (err) {
       res.status(500).send({ error: "Cannot Insert to Database", details: err.message });
     } else {
-      res.status(200).json({ message: `Booked By : ${booked_by_name}`, result: result });
+      res.status(200).json({ message: "Booking created successfully", result: result });
     }
   });
 };
