@@ -81,13 +81,7 @@ router.get("/rooms", roomController.getAllRooms);
  *           application/json:
  *             example:
  *               message: "Booking created successfully"
- *       400:
- *         description: ข้อมูลไม่ถูกต้อง
- *         content:
- *           application/json:
- *             example:
- *               error: "Invalid input"
- *               message: "All fields are required: booked_by_name, room_id, booking_by_status, booking_date, start_time, end_time."
+ 
  *       500:
  *         description: ข้อผิดพลาดฐานข้อมูล
  *         content:
